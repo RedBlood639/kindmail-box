@@ -9,21 +9,29 @@ import
   Link,
   List,
   ListInput,
-  ListItem
+  ListItem,
+  Button,
 } from 'framework7-react';
 
 class PopupForm extends Component { 
   constructor(props) {
     super(props);
-    this.state = {            
-      popupOpened:false,
-      name:"",
+    this.state = {                  
+      name:"",      
+      description:"",
+      isLoading:false,
       iscontent:false,
-      description:""
+      popupOpened:false
     }   
   }    
-  componentWillReceiveProps(nextProps) {    
-      this.setState({popupOpened:nextProps.opened});
+  componentWillReceiveProps(nextProps) {
+      this.setState({              
+        name:"",      
+        description:"",
+        isLoading:false,
+        iscontent:false,
+        popupOpened:nextProps.opened
+      });             
   }
   onChangehandler = (event)=>{     
     this.setState({[event.target.name]:event.target.value})
@@ -31,12 +39,20 @@ class PopupForm extends Component {
   onSethandler = (flag)=>{       
     this.setState({iscontent:flag});
   }
+  onSave = ()=>{
+    if(this.state.isLoading) return;
+    this.setState({isLoading:true});
+
+    console.log(this.state);
+    this.setState({isLoading:false});
+  
+  }
   render() {
     return (
       <Popup      
-      opened={this.state.popupOpened}
-      onPopupClosed={this.props.onClose}
-  >
+        opened={this.state.popupOpened}
+        onPopupClosed={this.props.onClose}
+      >
       <Page>
         <Navbar title="Create Content">
           <NavRight>
@@ -48,8 +64,7 @@ class PopupForm extends Component {
           <ListInput          
               label="Name"           
               type="text"
-              placeholder="Your name"
-              clearButton
+              placeholder="Your name"              
               validate
               name={"name"}
               onChange = {(e)=>this.onChangehandler(e)}                    
@@ -62,17 +77,23 @@ class PopupForm extends Component {
             onChange={()=>this.onSethandler(!this.state.iscontent)}
             checked = {this.state.iscontent}
           />
-          <ListInput
+          { this.state.iscontent?(
+            <ListInput
             label="Description"
             type="textarea"     
-            name={"description"}
-            clearButton
+            name={"description"}            
             placeholder="Input your description"
             resizable={true}
             onChange = {(e)=>this.onChangehandler(e)}
             value = {this.state.description}
           />                     
+          ):("")}          
           </List>
+        </Block>
+        <Block strong>
+          <Button fill preloader loading={this.state.isLoading} onClick={this.onSave}>
+            Save
+          </Button>
         </Block>
       </Page>
     </Popup>
