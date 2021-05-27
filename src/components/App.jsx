@@ -14,11 +14,10 @@ export default function (props) {
     theme: 'auto', // Automatic theme detection    
     routes,
   };
-
   return (
     <App params={f7params}>
       {/* Statusbar */}
-      <Statusbar/>     
+      <Statusbar/>
       <View id="main-view" url="/" main className="safe-areas"/>
     </App>
   );
