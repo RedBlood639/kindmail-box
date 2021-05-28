@@ -20,13 +20,13 @@ class PopupForm extends Component {
     super(props);
     this.state = {                  
       name:"",      
-      description:"",
-      isLoading:false,
+      description:"",      
       iscontent:false,
       popupOpened:false,      
     }   
   }    
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {    
+      console.log(nextProps);
       this.setState({              
         name:"",      
         description:"",        
@@ -40,14 +40,15 @@ class PopupForm extends Component {
   onSethandler = (flag)=>{       
     this.setState({iscontent:flag});
   }
-  onSave = ()=>{    
-    this.props.addCategory(this.state);  
+  onSave = async ()=>{    
+    await this.props.addCategory(this.state);
+    await this.props.onClose(false);      
   }
   render() {
     return (
       <Popup      
         opened={this.state.popupOpened}
-        onPopupClosed={this.props.onClose}
+        onPopupClosed={()=>this.props.onClose(false)}
       >
       <Page>
         <Navbar title="Create Content">
@@ -86,10 +87,10 @@ class PopupForm extends Component {
           ):("")}          
           </List>
         </Block>
-        <Block strong>
-          <Button fill preloader loading={this.state.isLoading} onClick={this.onSave}>
+        <Block strong>        
+          <Button fill  onClick={this.onSave}>
             Save
-          </Button>
+          </Button>          
         </Block>
       </Page>
     </Popup>
@@ -101,7 +102,9 @@ PopupForm.propTypes = {
   opened:PropTypes.bool.isRequired,
 }
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    preview:state.categories.preview
+  };
 };
 const mapDispatchToProps = {
   addCategory

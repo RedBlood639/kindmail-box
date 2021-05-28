@@ -17,11 +17,7 @@ export default function (props) {
     // App routes
     routes,
     // App Framework7 Redux state kernel
-    stateKernel,
-    // Disable F7 automated routing for Links
-    clicks: {
-      externalLinks: 'a[href="#"]'
-    },
+    stateKernel,        
     // Disable F7 automated routing for backdrops    
     panel: {
       closeByBackdropClick: false

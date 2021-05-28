@@ -23,10 +23,11 @@
     "eject": "react-scripts eject",
     "copy-fonts": "cpy node_modules/framework7-icons/fonts/*.* src/fonts && cpy node_modules/material-design-icons/iconfont/*.{eot,ttf,woff,woff2} src/fonts",
     "postinstall": "npm run copy-fonts"
-  },  
+  },
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "cpy-cli": "^2.0.0"
+    "cpy-cli": "^2.0.0",
+    "redux-devtools-extension": "^2.13.9"
   },
   "browserslist": {
     "development": [
@@ -41,5 +42,4 @@
       "not ie < 11"
     ]
   }
-  
 }

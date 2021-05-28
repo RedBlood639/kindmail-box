@@ -5,7 +5,7 @@ import {
   syncFramework7WithStore,
 } from "framework7-redux";
 import thunk from "redux-thunk";
-
+import { composeWithDevTools } from "redux-devtools-extension";
 import CategoryReducer from "./Reducers/CategoryReducer";
 
 export const stateKernel = new Framework7StateKernel();
@@ -15,7 +15,7 @@ export const store = createStore(
     framework7: framework7Reducer,
     categories: CategoryReducer,
   }),
-  applyMiddleware(thunk)
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 syncFramework7WithStore(store, stateKernel);
