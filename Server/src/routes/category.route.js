@@ -4,7 +4,9 @@ const express = require('express'),
 const category_Controller = require('../controllers/category.controller');
 //
 router.route('/create').post(category_Controller.createCategory);
+router.route('/createchild').post(category_Controller.createChild);
 router.route('/getcategories').get(category_Controller.getCategories);
 router.route('/preview').get(category_Controller.getPreviewData);
+
 //
 module.exports = router;

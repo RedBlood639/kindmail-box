@@ -2,21 +2,55 @@ const mongoose = require('mongoose');
 const category = require('../models/category.model');
 
 const createCategory = (req, res) => {
-  category.create(req.body, (err, data) => {
-    if (err) {
-      return res.status(500).send({
-        message: err.message,
+  if (req.body._id == '') {
+    let data = {};
+    data.name = req.body.name;
+    data.iscontent = req.body.iscontent;
+    data.description = req.body.description;
+    data.totalName = req.body.name;
+    category.create(data, (err, data) => {
+      if (err) {
+        return res.status(500).send({
+          message: err.message,
+        });
+      } else {
+        return res.status(200).send(data);
+      }
+    });
+  } else {
+    category
+      .findByIdAndUpdate(req.body._id, req.body, { new: true })
+      .then((data) => {
+        if (!data) {
+          return res.status(404).send({ message: 'No data found' });
+        }
+        return res.status(200).send(data);
+      })
+      .catch((err) => {
+        return res
+          .status(404)
+          .send({ message: 'Error while updating the post' });
       });
-    } else {
-      return res.status(200).send();
-    }
-  });
+  }
 };
 
+const getCategorie = (req, res) => {
+  (async function () {
+    await category
+      .findById(req.body.id)
+      .then((data) => {
+        return res.status(200).send(data);
+      })
+      .catch((err) => {
+        return res.status(500).send({
+          message: err.message,
+        });
+      });
+  })();
+};
 const getCategories = (req, res) => {
   category
     .find()
-    .sort({ name: -1 })
     .then((data) => {
       return res.status(200).send(data);
     })
@@ -26,7 +60,6 @@ const getCategories = (req, res) => {
       });
     });
 };
-
 const getPreviewData = (req, res) => {
   category
     .findById(req.query.id)
@@ -44,8 +77,39 @@ const getPreviewData = (req, res) => {
       });
     });
 };
+const createChild = (req, res) => {
+  console.log(req.body);
+  let redata = {};
+  redata.name = req.body.name;
+  redata.iscontent = req.body.iscontent;
+  redata.description = req.body.description;
+  redata.totalName = req.body.totalName + '>' + req.body.name;
+  category.create(redata, (err, data) => {
+    if (err) {
+      return res.status(500).send({
+        message: err.message,
+      });
+    } else {
+      category
+        .findByIdAndUpdate(
+          { _id: req.body.parentID },
+          { $push: { subs: data._id } },
+        )
+        .then((item) => {
+          return res.status(200).send();
+        })
+        .catch((err) => {
+          return res.status(500).send({
+            message: err.message,
+          });
+        });
+    }
+  });
+};
 module.exports = {
   createCategory,
   getCategories,
   getPreviewData,
+  getCategorie,
+  createChild,
 };

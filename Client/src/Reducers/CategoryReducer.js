@@ -1,8 +1,20 @@
-import { GET_GATEGORIES, GET_PREVIEW } from "../types";
+import {
+  GET_GATEGORIES,
+  GET_PREVIEW,
+  INITIALCONTENT,
+  ISPREVIEWER,
+} from "../types";
 
 const initialState = {
   lists: [],
-  preview: {},
+  preview: {
+    name: "",
+    totalName: "",
+    description: "",
+    iscontent: false,
+    _id: "",
+  },
+  ispreviewer: false,
 };
 
 export default (state = initialState, action) => {
@@ -16,6 +28,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         preview: action.payload,
+      };
+    case ISPREVIEWER:
+      return {
+        ...state,
+        ispreviewer: action.payload,
+      };
+    case INITIALCONTENT:
+      return {
+        ...state,
+        preview: initialState.preview,
       };
     default:
       return state;

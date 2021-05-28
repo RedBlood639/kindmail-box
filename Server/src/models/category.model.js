@@ -15,6 +15,16 @@ let CategorySchema = new Schema({
     type: String,
     default: '',
   },
+  totalName: {
+    type: String,
+    default: '',
+  },
+  subs: [{ type: Schema.Types.ObjectId, ref: 'categories' }],
 });
 
-module.exports = mongoose.model('Category', CategorySchema);
+CategorySchema.pre('findOne', function (next) {
+  this.populate('subs');
+  next();
+});
+
+module.exports = mongoose.model('categories', CategorySchema);

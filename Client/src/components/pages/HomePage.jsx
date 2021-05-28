@@ -16,26 +16,29 @@ import {
 import PopupForm from "./PopupForm";
 import React, { Component } from 'react'
 import {connect} from "react-redux";
-import { getCategories,previewCategory } from "../../Actions/CategoryAction"
+import { getCategories,previewCategory,setInitial} from "../../Actions/CategoryAction"
 class HomePage extends Component {
   constructor(props){
     super(props);
     this.state = {      
       popupOpened:false,
-      lists:[],
-      
+      lists:[],      
     }
+  }  
+  setpopupOpened =  (isopen,isnew=false)=>{
+    if(isnew === true && isopen === true){        
+          this.props.setInitial();
+    }
+    this.setState({popupOpened:isopen});  
   }
-  
-  setisBottom = (flag)=>{    
-    this.setState({isBottom:flag});
-  }
-  setpopupOpened = (flag)=>{     
-    this.setState({popupOpened:flag});
+  onClickItem = async(id)=>{
+    await this.props.previewCategory(id);
+    await this.setpopupOpened(true);
   }
   async componentDidMount() {
     await this.props.getCategories();
   }
+  
   render() {
     return (
       <Page>
@@ -70,7 +73,7 @@ class HomePage extends Component {
               <ListItem
                 swipeout
                 link
-                onClick = {()=>this.props.previewCategory(element._id)}
+                onClick = {()=>this.onClickItem(element._id)}
                 title={element.name}                 
                 key={element._id}>
                     <SwipeoutActions left>
@@ -82,14 +85,14 @@ class HomePage extends Component {
         }
       </List>
       {/* floating FAB */}    
-      <Fab position="right-bottom" slot="fixed" onClick = {()=>this.setpopupOpened(true)}>
+      <Fab position="right-bottom" slot="fixed" onClick = {()=>this.setpopupOpened(true,true)}>
         <Icon ios="f7:plus" aurora="f7:plus" md="material:add"></Icon>
         <Icon ios="f7:xmark" aurora="f7:xmark" md="material:close"></Icon>      
       </Fab>            
       {/* PopupForm */}
       <PopupForm 
         opened = {this.state.popupOpened}
-        onClose = {this.setpopupOpened}
+        onClose = {this.setpopupOpened}        
       />
       {/* toolbar for footer */}
       <Toolbar bottom>  
@@ -105,11 +108,13 @@ class HomePage extends Component {
 
 const mapStateToProps = (state) => {
   return  {
-    lists:state.categories.lists
+    lists:state.categories.lists,
+    ispreviewer:state.categories.ispreviewer
   };
 };
 const mapDispatchToProps = {
   getCategories,
-  previewCategory
+  previewCategory,
+  setInitial
 };
 export default connect(mapStateToProps,mapDispatchToProps)(HomePage);

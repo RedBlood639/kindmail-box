@@ -1,4 +1,10 @@
-import { GET_GATEGORIES, GET_PREVIEW, SERVERURL } from "../types";
+import {
+  GET_GATEGORIES,
+  GET_PREVIEW,
+  INITIALCONTENT,
+  ISPREVIEWER,
+  SERVERURL,
+} from "../types";
 import axios from "axios";
 import { showAlert } from "framework7-redux";
 
@@ -31,4 +37,23 @@ export const previewCategory = (id) => (dispatch) => {
     .catch((err) => {
       dispatch(showAlert(err, "ERROR!"));
     });
+};
+export const onCreatechild = (value) => (dispatch) => {
+  console.log(value);
+  axios
+    .post(`${SERVERURL}/api/category/createchild`, value)
+    .then((res) => {
+      dispatch(getCategories());
+    })
+    .catch((err) => {
+      dispatch(showAlert(err, "ERROR!"));
+    });
+};
+
+/// set options by using redux
+export const setPreviewer = (flag) => (dispatch) => {
+  dispatch({ type: ISPREVIEWER, payload: flag });
+};
+export const setInitial = () => (dispatch) => {
+  dispatch({ type: INITIALCONTENT, payload: [] });
 };

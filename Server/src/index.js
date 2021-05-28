@@ -9,6 +9,8 @@ const categoryRouter = require('./routes/category.route');
 mongoose.Promise = global.Promise;
 mongoose
   .connect(config.db, {
+    useFindAndModify: false,
+    useCreateIndex: true,
     useUnifiedTopology: true,
     useNewUrlParser: true,
   })
