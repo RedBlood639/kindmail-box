@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {connect} from "react-redux";
+import PropTypes from "prop-types";
 import 
 { 
   Page, 
@@ -12,7 +14,7 @@ import
   ListItem,
   Button,
 } from 'framework7-react';
-
+import { addCategory } from "../../Actions/CategoryAction"
 class PopupForm extends Component { 
   constructor(props) {
     super(props);
@@ -21,31 +23,25 @@ class PopupForm extends Component {
       description:"",
       isLoading:false,
       iscontent:false,
-      popupOpened:false
+      popupOpened:false,      
     }   
   }    
   componentWillReceiveProps(nextProps) {
       this.setState({              
         name:"",      
-        description:"",
-        isLoading:false,
+        description:"",        
         iscontent:false,
         popupOpened:nextProps.opened
       });             
   }
-  onChangehandler = (event)=>{     
+  onChangehandler = (event)=>{         
     this.setState({[event.target.name]:event.target.value})
   }
   onSethandler = (flag)=>{       
     this.setState({iscontent:flag});
   }
-  onSave = ()=>{
-    if(this.state.isLoading) return;
-    this.setState({isLoading:true});
-
-    console.log(this.state);
-    this.setState({isLoading:false});
-  
+  onSave = ()=>{    
+    this.props.addCategory(this.state);  
   }
   render() {
     return (
@@ -67,7 +63,7 @@ class PopupForm extends Component {
               placeholder="Your name"              
               validate
               name={"name"}
-              onChange = {(e)=>this.onChangehandler(e)}                    
+              onChange = {this.onChangehandler}                    
               value = {this.state.name}              
           >                      
           </ListInput>
@@ -84,7 +80,7 @@ class PopupForm extends Component {
             name={"description"}            
             placeholder="Input your description"
             resizable={true}
-            onChange = {(e)=>this.onChangehandler(e)}
+            onChange = {this.onChangehandler}
             value = {this.state.description}
           />                     
           ):("")}          
@@ -100,8 +96,17 @@ class PopupForm extends Component {
     )
   }
 }
-
-export default PopupForm;
+PopupForm.propTypes = {  
+  onClose:PropTypes.func.isRequired,
+  opened:PropTypes.bool.isRequired,
+}
+const mapStateToProps = (state) => {
+  return {};
+};
+const mapDispatchToProps = {
+  addCategory
+};
+export default connect(mapStateToProps,mapDispatchToProps)(PopupForm);
 
 
 

@@ -12,8 +12,10 @@ import {
 } from 'framework7-react';
 import PopupForm from "./PopupForm";
 import React, { Component } from 'react'
-
-export default class HomePage extends Component {
+import {connect} from "react-redux";
+import PropTypes from "prop-types";
+import { getCategories } from "../../Actions/CategoryAction"
+class HomePage extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -26,7 +28,11 @@ export default class HomePage extends Component {
   }
   setpopupOpened = (flag)=>{       
     this.setState({popupOpened:flag});
-  }  
+  }
+  async componentDidMount() {
+    await this.props.getCategories();
+  }
+  
   render() {
     return (
       <Page>
@@ -86,5 +92,11 @@ export default class HomePage extends Component {
   }
 }
 
-
-
+PopupForm.propTypes = {}
+const mapStateToProps = (state) => {
+  return {};
+};
+const mapDispatchToProps = {
+  getCategories
+};
+export default connect(mapStateToProps,mapDispatchToProps)(HomePage);
