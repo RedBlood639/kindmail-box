@@ -1,22 +1,9 @@
-import {
-    Page,
-    Navbar,    
-    Link,
-    Toolbar,        
-    List,
-    ListItem, 
-    Fab,
-    Icon,    
-    NavRight,
-    Searchbar,
-    SwipeoutActions,
-    SwipeoutButton
-    
-} from 'framework7-react';
+
 import PopupForm from "./PopupForm";
 import React, { Component } from 'react'
-import {connect} from "react-redux";
-import { getCategories,previewCategory,setInitial} from "../../Actions/CategoryAction"
+import { connect } from "react-redux";
+import { getCategories,previewCategory,setInitial,deleteItem,compareroot} from "../../Actions/CategoryAction"
+import { Page,Navbar,Link,Toolbar,List,ListItem,Fab,Icon,NavRight,Searchbar,SwipeoutActions,SwipeoutButton} from 'framework7-react';
 class HomePage extends Component {
   constructor(props){
     super(props);
@@ -33,19 +20,18 @@ class HomePage extends Component {
   }
   onClickItem = async(id)=>{
     await this.props.previewCategory(id);
-    await this.setpopupOpened(true);
+    await this.props.compareroot(id);
+    await this.setpopupOpened(true);    
   }
   async componentDidMount() {
     await this.props.getCategories();
   }
-  
   render() {
     return (
       <Page>
       {/* menubar */}
       <Navbar title="CATEGORIES" backLink="Back">
-        <NavRight>
-             
+        <NavRight>             
         {/*Search Component Link */}
           <Link
             searchbarEnable=".searchbar-demo"
@@ -77,7 +63,7 @@ class HomePage extends Component {
                 title={element.name}                 
                 key={element._id}>
                     <SwipeoutActions left>
-                      <SwipeoutButton delete>Delete</SwipeoutButton>
+                      <SwipeoutButton color="red" onClick={()=>this.props.deleteItem(element._id)}>Delete</SwipeoutButton>
                     </SwipeoutActions>
                 </ListItem>
              )
@@ -86,8 +72,7 @@ class HomePage extends Component {
       </List>
       {/* floating FAB */}    
       <Fab position="right-bottom" slot="fixed" onClick = {()=>this.setpopupOpened(true,true)}>
-        <Icon ios="f7:plus" aurora="f7:plus" md="material:add"></Icon>
-        <Icon ios="f7:xmark" aurora="f7:xmark" md="material:close"></Icon>      
+        <Icon ios="f7:plus" aurora="f7:plus" md="material:add"></Icon>        
       </Fab>            
       {/* PopupForm */}
       <PopupForm 
@@ -115,6 +100,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   getCategories,
   previewCategory,
-  setInitial
+  setInitial,
+  deleteItem,
+  compareroot
 };
 export default connect(mapStateToProps,mapDispatchToProps)(HomePage);

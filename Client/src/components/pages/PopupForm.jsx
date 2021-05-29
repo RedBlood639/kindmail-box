@@ -14,33 +14,37 @@ import
   ListItem,
   Button,
   Fab,
-  Icon
+  Icon,
+  SwipeoutActions,
+  SwipeoutButton,
+  NavLeft
 } from 'framework7-react';
-import { addCategory,setPreviewer } from "../../Actions/CategoryAction"
+import { addCategory,setPreviewer,previewCategory,compareroot } from "../../Actions/CategoryAction"
 
 class PopupForm extends Component { 
   constructor(props) {
     super(props);
     this.state = {                  
-      name:"",            
+      _id:"",
+      name:"",    
       description:"", 
-      totalName:"",     
+      totalName:"",                 
       iscontent:false,
       popupOpened:false,
-      previewer:false,
-      _id:"",
-      parentID:"root" 
+      parentId:null,
+      previewer:false,    
     }   
   }           
-  componentWillReceiveProps(nextProps) {  
-    
+  componentWillReceiveProps(nextProps) {   
+      console.log(nextProps);         
       this.setState({              
         name:nextProps.preview.name,      
         description:nextProps.preview.description,        
         iscontent:nextProps.preview.iscontent,
         popupOpened:nextProps.opened,
-        _id:nextProps.preview._id,
-        totalName:nextProps.preview.totalName
+        _id:nextProps.preview._id,        
+        totalName:nextProps.preview.totalName,
+        parentId:nextProps.preview.parentId
       });             
   }
   onChangehandler = (event)=>{         
@@ -56,9 +60,19 @@ class PopupForm extends Component {
     await this.props.addCategory(this.state);
     await this.props.onClose(false);      
   }
+  onClickItem = async(id)=>{  
+    await this.props.previewCategory(id);     
+  }
   setOpepreviewer = async ()=>{
     await this.props.onClose(false);
     await this.props.setPreviewer(true)
+  }
+  backItem=(id)=>{          
+      if(id === this.props.root){
+        this.props.onClose(false);
+      }else{
+        this.props.previewCategory(this.state.parentId);         
+      }
   }
   render() {
     return (
@@ -66,8 +80,14 @@ class PopupForm extends Component {
         opened={this.state.popupOpened}
         onPopupClosed={()=>this.props.onClose(false)}
       >
-      <Page>
-        <Navbar title={this.state._id===""?"New Content":this.state.totalName}>
+      <Page>        
+        <Navbar>
+          <NavLeft >
+            <Link onClick={()=>this.backItem(this.state._id)}>
+              <Icon f7="arrow_left"></Icon>
+            </Link>
+          </NavLeft>
+          {this.state._id===""?"New Content":this.state.name}
           <NavRight>
             <Link popupClose>Close</Link>
           </NavRight>
@@ -110,16 +130,34 @@ class PopupForm extends Component {
             Save
           </Button>          
         </Block>
-              {/* floating FAB */}    
+        <Block>        
+        <List menuList  className="search-list searchbar-found">
+        { 
+          this.props.preview.subs.map(element=>
+             (
+              <ListItem
+                swipeout
+                link
+                title={element.name}  
+                onClick = {()=>this.onClickItem(element._id)}              
+                key={element._id}>
+                    <SwipeoutActions left>
+                      <SwipeoutButton color="red">Delete</SwipeoutButton>
+                    </SwipeoutActions>
+                </ListItem>
+             )
+          )
+        }
+      </List>       
+        </Block>
           {this.state._id === ""?(""):(   
-            <>   
-              <Fab position="right-bottom" slot="fixed" color="green" onClick = {()=>this.setOpepreviewer()}>        
-                <Icon ios="f7:plus" aurora="f7:plus" md="material:add"></Icon>
-                <Icon ios="f7:xmark" aurora="f7:xmark" md="material:close"></Icon>      
-            </Fab>             <Previewer/>
+            <>
+              <Fab position="right-bottom" slot="fixed" color="green" onClick = {()=>this.setOpepreviewer()}>
+                <Icon ios="f7:plus" aurora="f7:plus" md="material:add"></Icon>             
+            </Fab>           
+            <Previewer/>
             </>
-          )}  
-  
+          )}              
       </Page>
     </Popup>
     )
@@ -127,12 +165,15 @@ class PopupForm extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    preview:state.categories.preview    
+    preview:state.categories.preview,
+    root:state.categories.root    
   };
 };
 const mapDispatchToProps = {
   addCategory,
-  setPreviewer
+  previewCategory,
+  setPreviewer,
+  compareroot
 };
 export default connect(mapStateToProps,mapDispatchToProps)(PopupForm);
 

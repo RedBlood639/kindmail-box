@@ -19,6 +19,10 @@ let CategorySchema = new Schema({
     type: String,
     default: '',
   },
+  parentId: {
+    type: Schema.Types.ObjectId,
+    default: null,
+  },
   subs: [{ type: Schema.Types.ObjectId, ref: 'categories' }],
 });
 

@@ -1,4 +1,5 @@
 import {
+  COMPAREROOT,
   GET_GATEGORIES,
   GET_PREVIEW,
   INITIALCONTENT,
@@ -49,11 +50,16 @@ export const onCreatechild = (value) => (dispatch) => {
       dispatch(showAlert(err, "ERROR!"));
     });
 };
-
+export const deleteItem = (id) => (dispatch) => {
+  console.log(id);
+};
 /// set options by using redux
 export const setPreviewer = (flag) => (dispatch) => {
   dispatch({ type: ISPREVIEWER, payload: flag });
 };
 export const setInitial = () => (dispatch) => {
   dispatch({ type: INITIALCONTENT, payload: [] });
+};
+export const compareroot = (root_val) => (dispatch) => {
+  dispatch({ type: COMPAREROOT, payload: root_val });
 };

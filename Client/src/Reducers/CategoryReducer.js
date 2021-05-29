@@ -1,4 +1,5 @@
 import {
+  COMPAREROOT,
   GET_GATEGORIES,
   GET_PREVIEW,
   INITIALCONTENT,
@@ -8,12 +9,15 @@ import {
 const initialState = {
   lists: [],
   preview: {
+    _id: "",
     name: "",
     totalName: "",
     description: "",
     iscontent: false,
-    _id: "",
+    subs: [],
+    parentId: null,
   },
+  root: "",
   ispreviewer: false,
 };
 
@@ -38,6 +42,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         preview: initialState.preview,
+      };
+    case COMPAREROOT:
+      return {
+        ...state,
+        root: action.payload,
       };
     default:
       return state;

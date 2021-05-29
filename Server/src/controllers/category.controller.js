@@ -50,7 +50,7 @@ const getCategorie = (req, res) => {
 };
 const getCategories = (req, res) => {
   category
-    .find()
+    .find({parentId:null})
     .then((data) => {
       return res.status(200).send(data);
     })
@@ -78,11 +78,11 @@ const getPreviewData = (req, res) => {
     });
 };
 const createChild = (req, res) => {
-  console.log(req.body);
   let redata = {};
   redata.name = req.body.name;
   redata.iscontent = req.body.iscontent;
   redata.description = req.body.description;
+  redata.parentId = req.body.parentID;
   redata.totalName = req.body.totalName + '>' + req.body.name;
   category.create(redata, (err, data) => {
     if (err) {

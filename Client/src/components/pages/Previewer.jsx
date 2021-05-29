@@ -1,20 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-
-import 
-{ 
-  Page, 
-  Navbar, 
-  Block,
-  Popup,
-  NavRight,
-  Link,
-  List,
-  ListInput,
-  ListItem,
-  Button,
-} from 'framework7-react';
+//import f7 component
+import { Page,Navbar,Block,Popup,NavRight,Link,List,ListInput,ListItem,Button,} from 'framework7-react';
+// import actions
 import { addCategory,setPreviewer ,setInitial ,onCreatechild} from "../../Actions/CategoryAction"
+//define the Previewer
 class Previewer extends Component { 
   constructor(props) {
     super(props);
@@ -27,10 +17,7 @@ class Previewer extends Component {
       totalName:""
     }   
   }
-  componentWillReceiveProps(nextProps) { 
-      console.log(
-        nextProps
-      );       
+  componentWillReceiveProps(nextProps) {      
       this.setState({
           popupOpened:nextProps.opened,          
           parentID:nextProps.preview._id,
@@ -52,14 +39,7 @@ class Previewer extends Component {
   onCreatechild= async ()=>{
       await this.props.onCreatechild(this.state);
       await this.setInit();
-      await this.setState({
-                  name:"",      
-                  description:"",      
-                  iscontent:false,
-                  popupOpened:false,   
-                  parentID:"" ,
-                  totalName:"" 
-      })
+      await this.setState({name:"",description:"",iscontent:false,popupOpened:false,parentID:"",totalName:""})
   }
   render() {
     return (
