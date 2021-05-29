@@ -17,7 +17,8 @@ import
   Icon,
   SwipeoutActions,
   SwipeoutButton,
-  NavLeft
+  NavLeft,
+  Searchbar
 } from 'framework7-react';
 import { addCategory,setPreviewer,previewCategory,compareroot } from "../../Actions/CategoryAction"
 
@@ -88,6 +89,11 @@ class PopupForm extends Component {
             </Link>
           </NavLeft>
           {this.state._id===""?"New Content":this.state.name}
+          <Searchbar            
+            expandable
+            searchContainer=".search-list2"
+            searchIn=".item-title"        
+        ></Searchbar>
           <NavRight>
             <Link popupClose>Close</Link>
           </NavRight>
@@ -95,7 +101,7 @@ class PopupForm extends Component {
         <Block>
         <List noHairlinesMd inlineLabels>          
           <ListInput          
-              label="Name"           
+              label="Name *"           
               type="text"
               placeholder="Your name"              
               validate
@@ -130,8 +136,12 @@ class PopupForm extends Component {
             Save
           </Button>          
         </Block>
-        <Block>        
-        <List menuList  className="search-list searchbar-found">
+        <Block>  
+      {/* define content */}
+      <List className="searchbar-not-found">
+        <ListItem title="Nothing found"></ListItem>
+      </List>          
+        <List menuList  className="search-list2 searchbar-found">
         { 
           this.props.preview.subs.map(element=>
              (

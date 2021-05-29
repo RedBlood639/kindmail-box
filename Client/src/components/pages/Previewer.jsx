@@ -55,7 +55,7 @@ class Previewer extends Component {
         <Block>
         <List noHairlinesMd inlineLabels>          
           <ListInput          
-              label={"Name"}           
+              label={"Name *"}             
               type={"text"}
               placeholder={"Your name"}
               validate
