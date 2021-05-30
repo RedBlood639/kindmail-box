@@ -18,20 +18,14 @@ export default function (props) {
     routes,
     // App Framework7 Redux state kernel
     stateKernel,        
-    // Disable F7 automated routing for backdrops    
-    panel: {
-      closeByBackdropClick: false
-    },
-    popup: {
-      closeByBackdropClick: false
-    }
+    
   };
   return (
     <Provider store={store}>
       <App params={f7params}>
         {/* Statusbar */}
         <Statusbar/>
-        <View id="main-view" url="/" main className="safe-areas"/>
+        <View id="main-view" url="/" main className="safe-areas"/>        
       </App>
     </Provider>
   );

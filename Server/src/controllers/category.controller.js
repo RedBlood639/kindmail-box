@@ -50,7 +50,7 @@ const getCategorie = (req, res) => {
 };
 const getCategories = (req, res) => {
   category
-    .find({parentId:null})
+    .find({ parentId: null })
     .then((data) => {
       return res.status(200).send(data);
     })
