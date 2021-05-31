@@ -4,8 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const config = require('./config');
 
-const categoryRouter = require('./routes/category.route');
-
+const nodetypeRouter = require('./routes/nodetype.route');
 mongoose.Promise = global.Promise;
 mongoose
   .connect(config.db, {
@@ -27,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
-app.use('/api/category', categoryRouter);
+app.use('/api', nodetypeRouter);
 
 const server = app.listen(config.port, () => {
   console.log('Connected to port :' + config.port);

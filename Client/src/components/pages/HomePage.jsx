@@ -1,15 +1,14 @@
 
 import React, { Component } from 'react'
 import { connect } from "react-redux";
+import ListComponent from "../nodetypes/ListComponent"
 import { Page,Navbar,Link,Toolbar,Fab,Icon,NavRight,Searchbar} from 'framework7-react';
 class HomePage extends Component {
   constructor(props){
     super(props);
-    this.state = {      
-      popupOpened:false,    
-    }
+    this.state = {}
   }    
-  
+  componentDidMount() {} 
   render() {
     return (
       <Page>
@@ -30,12 +29,11 @@ class HomePage extends Component {
           searchContainer=".search-list"
           searchIn=".item-title"        
         ></Searchbar>
-      </Navbar>               
-
+      </Navbar>      
+      <ListComponent />            
       <Fab position="right-bottom" slot="fixed"  href="/notetype/" >              
           <Icon ios="f7:plus" aurora="f7:plus" md="material:add"></Icon>                
       </Fab>                           
-
       <Toolbar bottom>  
         <Link textColor="blue">Home</Link>
         <Link textColor="blue">Chat</Link>
@@ -48,8 +46,11 @@ class HomePage extends Component {
 
 
 const mapStateToProps = (state) => {
-  return  {};
+  return  {
+
+  };
 };
 const mapDispatchToProps = {    
+
 };
 export default connect(mapStateToProps,mapDispatchToProps)(HomePage);

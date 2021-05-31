@@ -1,7 +1,5 @@
 export const SERVERURL = "http://localhost:3001";
-export const GET_CATEGORIES = "GET_CATEGORIES";
-export const GET_PREVIEW = "GET_PREVIEW";
-export const ISPREVIEWER = "ISPREVIEWER";
-export const INITIALCONTENT = "INITIALCONTENT";
-export const COMPAREROOT = "COMPAREROOT";
-export const DELETECATEGORY = "DELETECATEGORY";
+// Type for Basic node type
+export const GETLISTITEMS = "GETLISTITEMS";
+export const GETLISTITEM = "GETLISTITEM";
+export const INITIAL = "INITIAL";

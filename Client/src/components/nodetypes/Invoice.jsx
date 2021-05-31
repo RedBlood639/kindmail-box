@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 //import f7 component
-import { Page,Navbar,Block,List,ListInput,Button,Fab,Icon} from 'framework7-react';
+import { Page,Navbar,Block,List,ListInput,Button,Fab,Icon, NavRight,Link,Searchbar} from 'framework7-react';
 import {getCurrentDate} from "../../utility/getCurrentDate"
-
+import { OnaddNodeType } from "../../Actions/CategoryAction";
+import {OnshowAlert} from "../../Actions/ShowAlertAction";
+import NodeType from './NodeType';
 class Invoice extends Component { 
   constructor(props) {
     super(props);
@@ -14,17 +16,60 @@ class Invoice extends Component {
         date:getCurrentDate(),
         amount:0,
         curreny:"",
-        prodescription:""
+        prodescription:"",
+        nodetype:"INVOICE"    
     }   
   } 
-  onChangehandler = (event)=>{   
-       
+  onChangehandler = (event)=>{          
     this.setState({[event.target.name]:event.target.value})
   }
+  onSavehandler = ()=>{
+    if(this.state.name.trim() === ""){
+        this.props.OnshowAlert("Warning","Name must required");
+    }else{      
+      this.props.OnaddNodeType(this.state);
+    }
+  }
+  componentDidMount() {      
+    if(this.props.parentID !==null){
+      this.setState({
+        name:this.props.preview.data.name,
+        description:this.props.preview.data.description,
+        clientname:this.props.preview.data.clientname,
+        date:this.props.preview.data.date,
+        amount:this.props.preview.data.amount,
+        curreny:this.props.preview.data.curreny,
+        prodescription:this.props.preview.data.prodescription,
+      })
+    }else{
+      this.setState({
+        name:"",
+        description:"",
+        clientname:"",
+        date:getCurrentDate(),
+        amount:0,
+        curreny:"",
+        prodescription:""})
+    }
+  }  
   render() {
     return (      
       <Page>
-          <Navbar title={"Invoice"} backLink={"Back"}>         
+          <Navbar title={"Invoice"} backLink={"Back"}>  
+          <NavRight>
+          <Link
+            searchbarEnable=".searchbar-invoice"
+            iconIos="f7:search"
+            iconAurora="f7:search"
+            iconMd="material:search"
+          ></Link>  
+        </NavRight>
+        <Searchbar
+          className="searchbar-invoice"
+          expandable
+          searchContainer=".search-list"
+          searchIn=".item-title"        
+        ></Searchbar>       
         </Navbar>
         <Block>
         <List noHairlinesMd>          
@@ -103,10 +148,11 @@ class Invoice extends Component {
           </List>
         </Block>
         <Block strong>        
-          <Button fill>
+          <Button fill onClick={this.onSavehandler}>
             Save
           </Button>          
         </Block>  
+  
       <Fab position="right-bottom" slot="fixed" >              
           <Icon ios="f7:plus" aurora="f7:plus" md="material:add"></Icon>                
       </Fab>        
@@ -116,9 +162,15 @@ class Invoice extends Component {
 }
 
 const mapDispatchToProps = {
+  OnaddNodeType,
+  OnshowAlert
 
 };
 const mapStateToProps = (state) => {
-    return {};
+    return {     
+       Lists:state.Lists.lists,
+       parentID:state.Lists.preview.parentID,
+       preview:state.Lists.preview.list[0],
+    };
 };
 export default connect(mapStateToProps,mapDispatchToProps)(Invoice);

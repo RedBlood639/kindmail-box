@@ -5,7 +5,7 @@ import NotFoundPage from "./components/pages/NotFoundPage";
 // component for nodeTypes
 import Basic from "./components/nodetypes/Basic";
 import Invoice from "./components/nodetypes/Invoice";
-import Poll from "./components/nodetypes/Poll";
+
 export default [
   {
     path: "/",
@@ -22,10 +22,6 @@ export default [
   {
     path: "/notetype/invoice/",
     component: Invoice,
-  },
-  {
-    path: "/notetype/poll/",
-    component: Poll,
   },
   {
     path: "(.*)",
