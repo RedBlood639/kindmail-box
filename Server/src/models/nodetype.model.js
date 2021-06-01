@@ -11,9 +11,4 @@ let CategorySchema = new Schema({
   subs: [{ type: Schema.Types.ObjectId, ref: 'categories' }],
 });
 
-CategorySchema.pre('findOne', function (next) {
-  this.populate('subs');
-  next();
-});
-
 module.exports = mongoose.model('categories', CategorySchema);

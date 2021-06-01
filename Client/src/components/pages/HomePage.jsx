@@ -13,7 +13,7 @@ class HomePage extends Component {
     return (
       <Page>
       {/* menubar */}
-      <Navbar title="CATEGORIES" backLink="Back">
+      <Navbar title="CATEGORIES">
         <NavRight>             
         {/*Search Component Link */}
           <Link
@@ -31,7 +31,7 @@ class HomePage extends Component {
         ></Searchbar>
       </Navbar>      
       <ListComponent />            
-      <Fab position="right-bottom" slot="fixed"  href="/notetype/" >              
+      <Fab position="right-bottom" slot="fixed"  href="/nodetype/" >              
           <Icon ios="f7:plus" aurora="f7:plus" md="material:add"></Icon>                
       </Fab>                           
       <Toolbar bottom>  

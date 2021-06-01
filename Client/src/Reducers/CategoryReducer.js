@@ -1,11 +1,18 @@
-import { GETLISTITEM, GETLISTITEMS } from "../types";
+import {
+  GETLISTITEM,
+  GETLISTITEMS,
+  INITIAL,
+  SCREENPLUS,
+  SCREENINIT,
+} from "../types";
 
 const initialState = {
   lists: [],
   preview: {
-    parentID: null,
+    itself: "",
     list: [],
   },
+  screenlist: [{ parentID: null, type: "NULL" }],
 };
 
 export default (state = initialState, action) => {
@@ -16,12 +23,31 @@ export default (state = initialState, action) => {
         lists: action.payload,
       };
     case GETLISTITEM:
-      state.preview.parentID = action.payload.parentId;
-      state.preview.list = state.lists.filter(
-        (item) => item._id === action.payload.id
-      );
+      state.preview.itself = action.payload.id;
+      state.preview.list = action.payload.list;
       return {
         ...state,
+      };
+    case INITIAL:
+      return {
+        ...state,
+        preview: {
+          itself: "",
+          list: [],
+        },
+      };
+    case SCREENPLUS:
+      let data = {};
+      data.parentID = action.payload.parentID;
+      data.type = action.payload.type;
+      state.screenlist.push(data);
+      return {
+        ...state,
+      };
+    case SCREENINIT:
+      return {
+        ...state,
+        screenlist: action.payload,
       };
     default:
       return state;

@@ -6,12 +6,14 @@ import {getListItems,getListItem} from "../../Actions/CategoryAction";
 class ListComponent extends Component { 
   constructor(props) {
     super(props);
-    this.state = {}   
+    this.state = {
+      list:[]
+    }   
   } 
 
-  componentDidMount() {
-    this.props.getListItems();
-  }  
+   componentDidMount() {
+     this.props.getListItems(this.props.itself);
+  }   
   render() {
     return (      
         <Block>
@@ -20,15 +22,15 @@ class ListComponent extends Component {
             </List>
             <List menuList  className="search-list searchbar-found">
             {
-                this.props.lists.map(element=>(
+                this.props.lists.map(element=>(                  
                 <ListItem
                     swipeout
                     link 
                     title={element.data.name}                 
-                    onClick = {()=>this.props.getListItem(element.data.parentId,element._id,element.data.nodetype)}
+                    onClick = {()=>this.props.getListItem(element._id,element.data.nodetype)}
                     key={element._id}>
                         <SwipeoutActions left>
-                        <SwipeoutButton color="red">Delete</SwipeoutButton>
+                        <SwipeoutButton color="red">{"Delete"}</SwipeoutButton>
                         </SwipeoutActions>
                 </ListItem>
                 ))
@@ -44,6 +46,9 @@ const mapDispatchToProps = {
     getListItem
 };
 const mapStateToProps = (state) => {
-    return {   lists:state.Lists.lists};
+    return {   
+      lists:state.Lists.lists,
+      itself:state.Lists.preview.itself
+    };
 };
 export default connect(mapStateToProps,mapDispatchToProps)(ListComponent);

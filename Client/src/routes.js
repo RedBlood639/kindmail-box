@@ -8,19 +8,19 @@ import Invoice from "./components/nodetypes/Invoice";
 
 export default [
   {
-    path: "/",
+    path: "/home/",
     component: HomePage,
   },
   {
-    path: "/notetype/",
+    path: "/nodetype/",
     component: NodeTypeList,
   },
   {
-    path: "/notetype/basic/",
+    path: "/nodetype/basic/",
     component: Basic,
   },
   {
-    path: "/notetype/invoice/",
+    path: "/nodetype/invoice/",
     component: Invoice,
   },
   {

@@ -18,14 +18,16 @@ export default function (props) {
     routes,
     // App Framework7 Redux state kernel
     stateKernel,        
-    
   };
   return (
     <Provider store={store}>
       <App params={f7params}>
         {/* Statusbar */}
         <Statusbar/>
-        <View id="main-view" url="/" main className="safe-areas"/>        
+        <View id="main-view" url="/home/" main className="safe-areas"/>
+        <View id="nodetype-view" url="/nodetype/"  className="safe-areas"/>        
+        <View id="basic-view" url="/nodetype/basic/"  className="safe-areas"/>        
+        <View id="invoice-view" url="/nodetype/invoice/"  className="safe-areas"/>        
       </App>
     </Provider>
   );
