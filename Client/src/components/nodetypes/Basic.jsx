@@ -47,21 +47,6 @@ class Basic extends Component {
     }
   }
   
-// 
-  componentWillReceiveProps(nextProps) { 
-    if(nextProps.Lists.preview.itself !== ""){            
-      this.setState({
-        name:nextProps.Lists.preview.list[0].data.name,
-        description:nextProps.Lists.preview.list[0].data.description,
-      })
-    }else{     
-      this.setState({
-        name:"",
-        description:"",
-      })
-    }
-  }
-  
   render() {
     return (      
       <Page>

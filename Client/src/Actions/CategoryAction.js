@@ -28,8 +28,6 @@ export const getListItems = (id = "") => (dispatch) => {
     .catch((err) => OnshowAlert("ERROR", "we can't have Datas."));
 };
 export const getListItem = (id, type) => (dispatch) => {
-  console.log(id, type);
-
   axios
     .get(`${SERVERURL}/api/getlistitem`, { params: { id } })
     .then((res) => {
@@ -46,7 +44,6 @@ export const BackRouter2 = (routerlist) => (dispatch) => {
     dispatch(goBack());
   } else {
     let router = routerlist[routerlist.length - 1];
-
     axios
       .get(`${SERVERURL}/api/getlistitem`, {
         params: { id: router.parentID },
@@ -83,8 +80,8 @@ export const BackRouter1 = (itself, Routerlist) => (dispatch) => {
           type: SCREENINIT,
           payload: [{ parentID: null, type: "NULL" }],
         });
-        dispatch(getListItems());
         dispatch(ChooseRouter("HOME"));
+        dispatch(getListItems());
         Promise.resolve();
       } else {
         axios

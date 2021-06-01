@@ -6,3 +6,6 @@ export const INITIAL = "INITIAL";
 export const SCREENPLUS = "SCREENPLUS";
 export const SCREENMINUS = "SCREENMINUS";
 export const SCREENINIT = "SCREENINIT";
+
+// Type for USer
+export const SETUSERINFO = "SETUSERINFO"
